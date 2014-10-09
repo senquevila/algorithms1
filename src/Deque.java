@@ -60,7 +60,7 @@ public class Deque<Item> implements Iterable<Item> {
     if (this.isEmpty())
       return 0;
     else {
-      int count = 1;
+      int count = 0;
       Node n = first;
       
       while (n != null) {
@@ -136,7 +136,7 @@ public class Deque<Item> implements Iterable<Item> {
     Item i = last.getItem();
     last = last.getPrev();
     
-    if (this.isEmpty()) {
+    if (last == null) {
       first = null;
     } else {
       last.setNext(null);
@@ -150,16 +150,25 @@ public class Deque<Item> implements Iterable<Item> {
   }
   
   private class DequeIterator implements Iterator<Item> {
+    Node pointer = first;
+    int current = 0;
+    
     public boolean hasNext() {
-      return size() > 0;
+      return (current < size());
     }
     
     public Item next() {
-      if (isEmpty()) {
-        throw new java.util.NoSuchElementException();
-      }      
+      Node aux = new Node();
       
-      return (Item) removeFirst();
+      if (pointer == null) {
+        throw new java.util.NoSuchElementException();
+      }
+      
+      aux = pointer;
+      pointer = pointer.getNext();
+      current++;
+      
+      return aux.getItem();
     }
 
     public void remove() {
@@ -169,28 +178,24 @@ public class Deque<Item> implements Iterable<Item> {
   
   public static void main(String[] args) {
     Deque<String> dq = new Deque<String>();      
-        
-    /*dq.addFirst("a");
+
+    dq.addLast("a");
     dq.addFirst("b");
     dq.addLast("c");
     dq.addFirst("");
     dq.removeFirst();
-    dq.removeLast();*/
+    dq.removeFirst();
     
-    Iterator<String> it = dq.iterator();
+    Iterator<String> it1 = dq.iterator();
+   
+    while (it1.hasNext()) {      
+      System.out.println(it1.next());
+    }
     
-    if (dq.isEmpty())
-      System.out.println("Vacio");
-    else
-      System.out.println("Lleno");
+    Iterator<String> it2 = dq.iterator();
     
-    if (it.hasNext())
-      System.out.println("Siguiente");
-    else
-      System.out.println("Sin siguiente");
-    
-    while (it.hasNext()) {      
-      System.out.println(it.next());
+    while (it2.hasNext()) {      
+      System.out.println(it2.next());
     }
   }
 }
