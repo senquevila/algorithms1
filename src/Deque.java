@@ -150,23 +150,19 @@ public class Deque<Item> implements Iterable<Item> {
   }
   
   private class DequeIterator implements Iterator<Item> {
-    Node pointer = first;
-    int current = 0;
+    private Node pointer = first;
     
     public boolean hasNext() {
-      return (current < size());
+      return (pointer != null);        
     }
     
     public Item next() {
-      Node aux = new Node();
-      
       if (pointer == null) {
         throw new java.util.NoSuchElementException();
       }
       
-      aux = pointer;
+      Node aux = pointer;      
       pointer = pointer.getNext();
-      current++;
       
       return aux.getItem();
     }
@@ -176,26 +172,4 @@ public class Deque<Item> implements Iterable<Item> {
     }
   }
   
-  public static void main(String[] args) {
-    Deque<String> dq = new Deque<String>();      
-
-    dq.addLast("a");
-    dq.addFirst("b");
-    dq.addLast("c");
-    dq.addFirst("");
-    dq.removeFirst();
-    dq.removeFirst();
-    
-    Iterator<String> it1 = dq.iterator();
-   
-    while (it1.hasNext()) {      
-      System.out.println(it1.next());
-    }
-    
-    Iterator<String> it2 = dq.iterator();
-    
-    while (it2.hasNext()) {      
-      System.out.println(it2.next());
-    }
-  }
 }

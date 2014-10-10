@@ -23,22 +23,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     return N;
   }
   
-  private void resize(char typeResize) {
-    int newCapacity = 0;
+  private void resize(char typeResize) {   
+    Item[] newQueue = null;
+    int newCapacity;
+    
     if (typeResize == '+') {
       newCapacity = capacity * 2;
+      newQueue = ((Item[]) new Object[newCapacity]);
+      
+      for (int i = 0; i < capacity; i++) {
+        newQueue[i] = queue[i];
+      }
+      capacity = newCapacity;      
     } else if (typeResize == '-') {
-      newCapacity = capacity / 2;
-    }
-    
-    Item[] newQueue = ((Item[]) new Object[newCapacity]);
-    int index = 0;
-    
-    for (int i = 0; i < capacity; i++) {
-      newQueue[index++] = queue[i];
-    }
-    
-    capacity = newCapacity;
+      capacity = capacity / 2;
+      newQueue = ((Item[]) new Object[capacity]);
+      
+      for (int i = 0; i < capacity; i++) {
+        newQueue[i] = queue[i];
+      }
+    }      
+        
     queue = newQueue;
   }
   
@@ -116,4 +121,5 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
       throw new java.lang.UnsupportedOperationException();
     }
   }
+  
 }
